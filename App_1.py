@@ -148,3 +148,44 @@ sns.heatmap(corr, annot=True, cmap="coolwarm", ax=ax5)
 ax5.set_title("Correlation Heatmap")
 plt.tight_layout()
 st.pyplot(fig5)
+
+# -----------------------------
+# Grid Subplots Dashboard
+# -----------------------------
+st.subheader("Multi-Chart Dashboard (Subplots Grid)")
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Create figure with 2 rows × 2 columns
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+
+# =============================
+# 🔹 Plot 1: Histogram
+# =============================
+axes[0, 0].hist(df["Final_Price"], bins=20)
+axes[0, 0].set_title("Final Price Distribution")
+
+# =============================
+# 🔹 Plot 2: Count Plot
+# =============================
+sns.countplot(x="Converted", data=df, ax=axes[0, 1])
+axes[0, 1].set_title("Conversion Count")
+
+# =============================
+# 🔹 Plot 3: Box Plot
+# =============================
+sns.boxplot(x="Program_Type", y="Final_Price", data=df, ax=axes[1, 0])
+axes[1, 0].set_title("Price by Program")
+
+# =============================
+# 🔹 Plot 4: Revenue Trend
+# =============================
+axes[1, 1].plot(df["Revenue"])
+axes[1, 1].set_title("Revenue Trend")
+
+# Adjust layout
+plt.tight_layout()
+
+# Display in Streamlit
+st.pyplot(fig)
