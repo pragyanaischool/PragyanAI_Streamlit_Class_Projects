@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import io
+import matplotlib.pyplot as plt
+import seaborn as sns
 # -----------------------------
 # Page Config
 # -----------------------------
@@ -94,3 +96,53 @@ st.bar_chart(revenue_by_program)
 # -----------------------------
 if st.checkbox("Show Full Data"):
     st.write(df)
+
+# -----------------------------
+# Advanced Charts (Matplotlib + Seaborn)
+# -----------------------------
+st.subheader("📊 Advanced Visualizations (Matplotlib & Seaborn)")
+
+# =============================
+# 🔹 MATPLOTLIB CHARTS
+# =============================
+st.write("### 📈 Matplotlib Charts")
+
+# 1. Histogram - Final Price Distribution
+fig1, ax1 = plt.subplots()
+ax1.hist(df["Final_Price"], bins=20)
+ax1.set_title("Distribution of Final Price")
+ax1.set_xlabel("Final Price")
+ax1.set_ylabel("Frequency")
+st.pyplot(fig1)
+
+# 2. Line Chart - Revenue Trend (if index acts like time/order)
+fig2, ax2 = plt.subplots()
+ax2.plot(df["Revenue"])
+ax2.set_title("Revenue Trend")
+ax2.set_xlabel("Index")
+ax2.set_ylabel("Revenue")
+st.pyplot(fig2)
+
+# =============================
+# 🔹 SEABORN CHARTS
+# =============================
+st.write("### 🎨 Seaborn Charts")
+
+# 3. Count Plot - Conversion
+fig3, ax3 = plt.subplots()
+sns.countplot(x="Converted", data=df, ax=ax3)
+ax3.set_title("Conversion Count")
+st.pyplot(fig3)
+
+# 4. Box Plot - Final Price by Program
+fig4, ax4 = plt.subplots()
+sns.boxplot(x="Program_Type", y="Final_Price", data=df, ax=ax4)
+ax4.set_title("Final Price Distribution by Program")
+st.pyplot(fig4)
+
+# 5. Heatmap - Correlation
+fig5, ax5 = plt.subplots()
+corr = df.corr(numeric_only=True)
+sns.heatmap(corr, annot=True, cmap="coolwarm", ax=ax5)
+ax5.set_title("Correlation Heatmap")
+st.pyplot(fig5)
