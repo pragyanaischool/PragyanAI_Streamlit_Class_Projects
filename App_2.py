@@ -17,14 +17,10 @@ def load_data():
     return df
 
 df = load_data()
-
 # -----------------------------
 # Grid Subplots Dashboard
 # -----------------------------
 st.subheader("Multi-Chart Dashboard (Subplots Grid)")
-
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 # Create figure with 2 rows × 2 columns
 fig, axes = plt.subplots(2, 2, figsize=(14, 10))
