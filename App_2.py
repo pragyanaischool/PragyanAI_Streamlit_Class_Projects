@@ -7,7 +7,7 @@ import os
 
 st.set_page_config(layout="wide")
 
-st.title("🚀 PragyanAI Student Data Advanced Visualization App")
+st.title(" PragyanAI Student Data Advanced Visualization App")
 
 # -----------------------------
 # SAFE DATA LOADING
@@ -50,7 +50,7 @@ df = df.head(5000)
 # -----------------------------
 # BASIC GRID (SMALL + SAFE)
 # -----------------------------
-st.subheader("📊 Multi-Chart Dashboard")
+st.subheader(" Multi-Chart Dashboard")
 
 fig1, axes1 = plt.subplots(2, 2, figsize=(12, 8))
 
