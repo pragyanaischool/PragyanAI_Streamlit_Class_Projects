@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import os
-
+from groq import Groq
 # -----------------------------
 # Page Config
 # -----------------------------
@@ -235,28 +235,88 @@ elif page == "Advanced Media":
     if video_url:
         st.video(video_url)
 
-    # =====================================
-    # 💬 CHAT UI (BASIC)
-    # =====================================
-    st.write("## Chat UI")
+    st.subheader("💬 AI Chat Assistant (Groq Powered)")
 
-    if "chat_history" not in st.session_state:
-        st.session_state.chat_history = []
+    # -----------------------------
+    # Initialize Groq Client
+    # -----------------------------
+    GROQ_API_KEY = st.secrets.get("GROQ_API_KEY", None)
 
-    user_input = st.chat_input("Ask something...")
+    if not GROQ_API_KEY:
+        st.error("❌ GROQ API Key not found in secrets")
+        st.stop()
+
+    client = Groq(api_key=GROQ_API_KEY)
+
+    # -----------------------------
+    # Session State for Chat Memory
+    # -----------------------------
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
+
+    # -----------------------------
+    # Display Chat History
+    # -----------------------------
+    for msg in st.session_state.messages:
+        with st.chat_message(msg["role"]):
+            st.write(msg["content"])
+
+    # -----------------------------
+    # User Input
+    # -----------------------------
+    user_input = st.chat_input("Ask anything about data, pricing, AI...")
 
     if user_input:
-        st.session_state.chat_history.append(("user", user_input))
 
-        # Dummy bot response
-        response = f"🤖 You said: {user_input}"
-        st.session_state.chat_history.append(("bot", response))
+        # Add user message
+        st.session_state.messages.append({
+            "role": "user",
+            "content": user_input
+        })
 
-    for role, msg in st.session_state.chat_history:
-        if role == "user":
-            st.chat_message("user").write(msg)
-        else:
-            st.chat_message("assistant").write(msg)
+        with st.chat_message("user"):
+            st.write(user_input)
+
+        # -----------------------------
+        # SYSTEM PROMPT (VERY IMPORTANT)
+        # -----------------------------
+        system_prompt = """
+        You are an AI Data Analytics Assistant for PragyanAI.
+        Help users understand data, pricing, conversions, and insights.
+        Give clear, concise, and actionable answers.
+        """
+
+        # -----------------------------
+        # Call Groq LLM
+        # -----------------------------
+        try:
+            response = client.chat.completions.create(
+                model="llama3-70b-8192",  # fast + powerful
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    *st.session_state.messages
+                ],
+                temperature=0.3
+            )
+
+            bot_reply = response.choices[0].message.content
+
+        except Exception as e:
+            bot_reply = f"❌ Error: {str(e)}"
+
+        # -----------------------------
+        # Store Assistant Response
+        # -----------------------------
+        st.session_state.messages.append({
+            "role": "assistant",
+            "content": bot_reply
+        })
+
+        # -----------------------------
+        # Display Response
+        # -----------------------------
+        with st.chat_message("assistant"):
+            st.write(bot_reply)
 
     # =====================================
     # 🎤 AUDIO RECORD (MIC INPUT - BROWSER BASED)
