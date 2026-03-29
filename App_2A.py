@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-st.title("📊 Basic Charts Dashboard")
+st.title(" Basic Charts Dashboard")
 
 df = pd.read_csv("student_PRICING_SCHOLARSHIP_Analysis_Project_12.csv")
 
@@ -59,38 +59,3 @@ with col7:
 # =============================
 st.write("### Full Dataset Trend View")
 st.line_chart(df[["Final_Price", "Revenue"]])
-
-# -----------------------------
-# Filters
-# -----------------------------
-st.sidebar.header(" Filters")
-
-# Select Program
-program = st.sidebar.selectbox(
-    "Select Program",
-    options=df["Program_Type"].unique()
-)
-
-# Slider for Marks / Price
-price_range = st.sidebar.slider(
-    "Select Final Price Range",
-    int(df["Final_Price"].min()),
-    int(df["Final_Price"].max()),
-    (int(df["Final_Price"].min()), int(df["Final_Price"].max()))
-)
-
-# -----------------------------
-# Apply Filters
-# -----------------------------
-filtered_df = df[
-    (df["Program_Type"] == program) &
-    (df["Final_Price"].between(price_range[0], price_range[1]))
-]
-
-# -----------------------------
-# Output
-# -----------------------------
-st.subheader(" Filtered Data")
-st.dataframe(filtered_df)
-
-st.write("Total Students:", len(filtered_df))
