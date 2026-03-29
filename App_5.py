@@ -48,7 +48,7 @@ choice = st.sidebar.selectbox("Menu", menu)
 if not st.session_state.logged_in:
 
     if choice == "Login":
-        st.title("🔐 Login")
+        st.title("Login")
 
         username = st.text_input("Username")
         password = st.text_input("Password", type="password")
@@ -62,7 +62,7 @@ if not st.session_state.logged_in:
                 st.error("❌ Invalid credentials")
 
     elif choice == "Register":
-        st.title("📝 Register")
+        st.title("Register")
 
         new_user = st.text_input("Username")
         new_pass = st.text_input("Password", type="password")
@@ -87,12 +87,12 @@ else:
 
     df = load_data()
 
-    st.title("📊 AI Tableau-Style Dashboard")
+    st.title("AI Tableau-Style Dashboard")
 
     # -----------------------------
     # SIDEBAR FILTERS
     # -----------------------------
-    st.sidebar.header("🔍 Filters")
+    st.sidebar.header("Filters")
 
     # Date filter
     date_range = st.sidebar.date_input(
@@ -130,7 +130,7 @@ else:
     # -----------------------------
     # DYNAMIC CHART SELECTOR
     # -----------------------------
-    st.subheader("📈 Dynamic Chart Builder")
+    st.subheader("Dynamic Chart Builder")
 
     chart_type = st.selectbox("Select Chart Type", ["Bar", "Line", "Scatter", "Pie"])
 
@@ -151,7 +151,7 @@ else:
     # -----------------------------
     # AUTO REFRESH (REAL-TIME)
     # -----------------------------
-    st.subheader("⏳ Real-Time Simulation")
+    st.subheader("Real-Time Simulation")
 
     refresh = st.checkbox("Enable Auto Refresh")
 
@@ -163,7 +163,7 @@ else:
     # -----------------------------
     # ADVANCED CHARTS
     # -----------------------------
-    st.subheader("📊 Advanced Analytics")
+    st.subheader("Advanced Analytics")
 
     col4, col5 = st.columns(2)
 
@@ -180,7 +180,7 @@ else:
     # -----------------------------
     # DATA TABLE + DOWNLOAD
     # -----------------------------
-    st.subheader("📄 Data Table")
+    st.subheader("Data Table")
     st.dataframe(filtered_df)
 
     st.download_button(
