@@ -37,7 +37,7 @@ st.text(buffer.getvalue())
 # -----------------------------
 # KPIs
 # -----------------------------
-st.subheader("📌 Key Metrics")
+st.subheader(" Key Metrics")
 
 col1, col2, col3, col4 = st.columns(4)
 
@@ -64,16 +64,16 @@ st.subheader("💡 Key Insights")
 
 # Top revenue student
 top_student = df.loc[df["Revenue"].idxmax()]
-st.write(f"🏆 Highest Revenue Student ID: {top_student['Student_ID']} → ₹{top_student['Revenue']:,.0f}")
+st.write(f" Highest Revenue Student ID: {top_student['Student_ID']} → ₹{top_student['Revenue']:,.0f}")
 
 # Conversion by Program
 conversion_by_program = df.groupby("Program_Type")["Converted"].mean() * 100
-st.write("📊 Conversion Rate by Program:")
+st.write(" Conversion Rate by Program:")
 st.write(conversion_by_program)
 
 # Avg Discount
 avg_discount = df["Discount_%"].mean()
-st.write(f"🎁 Average Discount Given: {avg_discount:.2f}%")
+st.write(f" Average Discount Given: {avg_discount:.2f}%")
 
 # -----------------------------
 # Simple Charts
