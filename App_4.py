@@ -31,7 +31,7 @@ st.sidebar.title(" Navigation")
 
 page = st.sidebar.radio(
     "Go to",
-    [" Home", "Dashboard", "Form", "Session State", "All Inputs"]
+    [" Home", "Dashboard", "Form", "Session State", "All Inputs","Advanced Media"]
 )
 
 # =============================
@@ -198,3 +198,108 @@ elif page == "All Inputs":
         st.write(f"Gender: {gender}")
         st.write(f"Agreed: {agree}")
         st.write(f"Date: {date}")
+# =============================
+# 🎬 ADVANCED MEDIA & AI PAGE
+# =============================
+elif page == "Advanced Media":
+
+    st.subheader("Advanced Media & AI Features")
+
+    # =====================================
+    # 🖼️ IMAGE UPLOAD & DISPLAY
+    # =====================================
+    st.write("## Image Upload")
+
+    image_file = st.file_uploader("Upload an Image", type=["png", "jpg", "jpeg"])
+
+    if image_file:
+        st.image(image_file, caption="Uploaded Image", use_container_width=True)
+
+    # =====================================
+    # 🎵 AUDIO UPLOAD & PLAY
+    # =====================================
+    st.write("## Audio Upload & Play")
+
+    audio_file = st.file_uploader("Upload Audio", type=["mp3", "wav"])
+
+    if audio_file:
+        st.audio(audio_file)
+
+    # =====================================
+    # 🎥 VIDEO DISPLAY (YouTube)
+    # =====================================
+    st.write("## YouTube Video")
+
+    video_url = st.text_input("Enter YouTube URL")
+
+    if video_url:
+        st.video(video_url)
+
+    # =====================================
+    # 💬 CHAT UI (BASIC)
+    # =====================================
+    st.write("## Chat UI")
+
+    if "chat_history" not in st.session_state:
+        st.session_state.chat_history = []
+
+    user_input = st.chat_input("Ask something...")
+
+    if user_input:
+        st.session_state.chat_history.append(("user", user_input))
+
+        # Dummy bot response
+        response = f"🤖 You said: {user_input}"
+        st.session_state.chat_history.append(("bot", response))
+
+    for role, msg in st.session_state.chat_history:
+        if role == "user":
+            st.chat_message("user").write(msg)
+        else:
+            st.chat_message("assistant").write(msg)
+
+    # =====================================
+    # 🎤 AUDIO RECORD (MIC INPUT - BROWSER BASED)
+    # =====================================
+    st.write("## Voice Input (Experimental)")
+
+    try:
+        audio_value = st.audio_input("Record your voice")
+
+        if audio_value:
+            st.audio(audio_value)
+            st.success("Voice recorded successfully!")
+    except:
+        st.info("Audio recording not supported in this environment")
+
+    # =====================================
+    # 📥 DOWNLOAD BUTTON
+    # =====================================
+    st.write("## Download Sample Report")
+
+    sample_text = "PragyanAI Report Generated"
+
+    st.download_button(
+        label="Download Report",
+        data=sample_text,
+        file_name="report.txt",
+        mime="text/plain"
+    )
+
+    # =====================================
+    # 📦 EXPANDER (ADVANCED UI)
+    # =====================================
+    with st.expander("More Advanced Options"):
+        st.write("This section can contain advanced analytics or settings")
+
+    # =====================================
+    # 🎨 PROGRESS BAR
+    # =====================================
+    st.write("## Progress Indicator")
+
+    progress = st.progress(0)
+
+    for i in range(100):
+        progress.progress(i + 1)
+
+    st.success("Task Completed!")
