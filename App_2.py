@@ -3,127 +3,121 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import math
+import os
 
-st.title(" PragyanAI Student Data Advance Visualization & Filtering App")
+st.set_page_config(layout="wide")
 
-# Load Data
-#df = pd.read_csv("student_PRICING_SCHOLARSHIP_Analysis_Project_12.csv")
+st.title("🚀 PragyanAI Student Data Advanced Visualization App")
+
 # -----------------------------
-# Load Data
+# SAFE DATA LOADING
 # -----------------------------
+uploaded_file = st.file_uploader("Upload CSV (Recommended)", type=["csv"])
+
 @st.cache_data
-def load_data():
-    df = pd.read_csv("student_PRICING_SCHOLARSHIP_Analysis_Project_12.csv")
-    return df
+def load_data(path):
+    return pd.read_csv(path)
 
-df = load_data()
+if uploaded_file:
+    df = pd.read_csv(uploaded_file)
+else:
+    default_path = "student_PRICING_SCHOLARSHIP_Analysis_Project_12.csv"
+    
+    if os.path.exists(default_path):
+        df = load_data(default_path)
+    else:
+        st.error("❌ Dataset not found. Please upload CSV.")
+        st.stop()
+
+st.success("✅ Data Loaded Successfully")
+
 # -----------------------------
-# Grid Subplots Dashboard
+# SAFE COLUMN CHECK
 # -----------------------------
-st.subheader("Multi-Chart Dashboard (Subplots Grid)")
+required_cols = ["Final_Price", "Converted", "Program_Type", "Revenue", "Discount_%"]
 
-# Create figure with 2 rows × 2 columns
-fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+missing = [col for col in required_cols if col not in df.columns]
 
-# =============================
-# 🔹 Plot 1: Histogram
-# =============================
-axes[0, 0].hist(df["Final_Price"], bins=20)
-axes[0, 0].set_title("Final Price Distribution")
+if missing:
+    st.error(f"❌ Missing columns: {missing}")
+    st.stop()
 
-# =============================
-# 🔹 Plot 2: Count Plot
-# =============================
-sns.countplot(x="Converted", data=df, ax=axes[0, 1])
-axes[0, 1].set_title("Conversion Count")
+# -----------------------------
+# LIMIT DATA (avoid crash)
+# -----------------------------
+df = df.head(5000)
 
-# =============================
-# 🔹 Plot 3: Box Plot
-# =============================
-sns.boxplot(x="Program_Type", y="Final_Price", data=df, ax=axes[1, 0])
-axes[1, 0].set_title("Price by Program")
+# -----------------------------
+# BASIC GRID (SMALL + SAFE)
+# -----------------------------
+st.subheader("📊 Multi-Chart Dashboard")
 
-# =============================
-# 🔹 Plot 4: Revenue Trend
-# =============================
-axes[1, 1].plot(df["Revenue"])
-axes[1, 1].set_title("Revenue Trend")
+fig1, axes1 = plt.subplots(2, 2, figsize=(12, 8))
 
-# Adjust layout
+axes1[0, 0].hist(df["Final_Price"], bins=20)
+axes1[0, 0].set_title("Final Price")
+
+sns.countplot(x="Converted", data=df, ax=axes1[0, 1])
+axes1[0, 1].set_title("Conversion")
+
+sns.boxplot(x="Program_Type", y="Final_Price", data=df, ax=axes1[1, 0])
+axes1[1, 0].set_title("Price by Program")
+
+axes1[1, 1].plot(df["Revenue"])
+axes1[1, 1].set_title("Revenue Trend")
+
 plt.tight_layout()
-
-# Display in Streamlit
-st.pyplot(fig)
+st.pyplot(fig1)
+plt.close(fig1)   # 🔥 IMPORTANT
 
 # -----------------------------
-# Advanced Dynamic Subplots Grid
+# DYNAMIC GRID (OPTIMIZED)
 # -----------------------------
-st.subheader("Advanced Multi-Chart Dynamic Dashboard")
+st.subheader("📊 Advanced Dynamic Dashboard")
 
-# =============================
-# 🔹 Define number of plots dynamically
-# =============================
 plots = [
     "hist_price",
     "revenue_trend",
     "conversion_count",
     "box_plot",
-    "discount_distribution",
-    "correlation_heatmap"
 ]
 
-num_plots = len(plots)
-cols = 2  # number of columns you want
-rows = math.ceil(num_plots / cols)
+cols = 2
+rows = math.ceil(len(plots) / cols)
 
-# =============================
-# 🔹 Create subplot grid
-# =============================
-fig, axes = plt.subplots(rows, cols, figsize=(16, 5 * rows))
-axes = axes.flatten()  # flatten for easy indexing
+fig2, axes2 = plt.subplots(rows, cols, figsize=(14, 5 * rows))
+axes2 = axes2.flatten()
 
-# =============================
-# 🔹 Loop through plots
-# =============================
 for i, plot in enumerate(plots):
 
     if plot == "hist_price":
-        axes[i].hist(df["Final_Price"], bins=20)
-        axes[i].set_title("Final Price Distribution")
+        axes2[i].hist(df["Final_Price"], bins=15)
+        axes2[i].set_title("Price Distribution")
 
     elif plot == "revenue_trend":
-        axes[i].plot(df["Revenue"])
-        axes[i].set_title("Revenue Trend")
+        axes2[i].plot(df["Revenue"])
+        axes2[i].set_title("Revenue Trend")
 
     elif plot == "conversion_count":
-        sns.countplot(x="Converted", data=df, ax=axes[i])
-        axes[i].set_title("Conversion Count")
+        sns.countplot(x="Converted", data=df, ax=axes2[i])
+        axes2[i].set_title("Conversion Count")
 
     elif plot == "box_plot":
-        sns.boxplot(x="Program_Type", y="Final_Price", data=df, ax=axes[i])
-        axes[i].set_title("Price by Program")
+        sns.boxplot(x="Program_Type", y="Final_Price", data=df, ax=axes2[i])
+        axes2[i].set_title("Program vs Price")
 
-    elif plot == "discount_distribution":
-        axes[i].hist(df["Discount_%"], bins=20)
-        axes[i].set_title("Discount Distribution")
+# remove extra axes
+for j in range(i + 1, len(axes2)):
+    fig2.delaxes(axes2[j])
 
-    elif plot == "correlation_heatmap":
-        corr = df.corr(numeric_only=True)
-        sns.heatmap(corr, annot=True, cmap="coolwarm", ax=axes[i])
-        axes[i].set_title("Correlation Heatmap")
-
-# =============================
-# 🔹 Hide empty subplots
-# =============================
-for j in range(i + 1, len(axes)):
-    fig.delaxes(axes[j])
-
-# =============================
-# 🔹 Final Layout Fix
-# =============================
 plt.tight_layout()
+st.pyplot(fig2)
+plt.close(fig2)   # 🔥 VERY IMPORTANT
 
-# =============================
-# 🔹 Show in Streamlit
-# =============================
-st.pyplot(fig)
+# -----------------------------
+# DEBUG INFO
+# -----------------------------
+with st.expander("🔍 Debug Info"):
+    st.write("Shape:", df.shape)
+    st.write("Columns:", df.columns.tolist())
+    
