@@ -100,12 +100,12 @@ if st.checkbox("Show Full Data"):
 # -----------------------------
 # Advanced Charts (Matplotlib + Seaborn)
 # -----------------------------
-st.subheader("📊 Advanced Visualizations (Matplotlib & Seaborn)")
+st.subheader(" Advanced Visualizations (Matplotlib & Seaborn)")
 
 # =============================
 # 🔹 MATPLOTLIB CHARTS
 # =============================
-st.write("### 📈 Matplotlib Charts")
+st.write("### Matplotlib Charts")
 
 # 1. Histogram - Final Price Distribution
 fig1, ax1 = plt.subplots()
@@ -121,12 +121,13 @@ ax2.plot(df["Revenue"])
 ax2.set_title("Revenue Trend")
 ax2.set_xlabel("Index")
 ax2.set_ylabel("Revenue")
+plt.tight_layout()
 st.pyplot(fig2)
 
 # =============================
 # 🔹 SEABORN CHARTS
 # =============================
-st.write("### 🎨 Seaborn Charts")
+st.write("### Seaborn Charts")
 
 # 3. Count Plot - Conversion
 fig3, ax3 = plt.subplots()
@@ -145,4 +146,5 @@ fig5, ax5 = plt.subplots()
 corr = df.corr(numeric_only=True)
 sns.heatmap(corr, annot=True, cmap="coolwarm", ax=ax5)
 ax5.set_title("Correlation Heatmap")
+plt.tight_layout()
 st.pyplot(fig5)
