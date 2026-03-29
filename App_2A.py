@@ -7,7 +7,7 @@ import os
 # -----------------------------
 st.set_page_config(page_title="PragyanAI Dashboard", layout="wide")
 
-st.title("🚀 PragyanAI Pricing Analytics Dashboard")
+st.title(" PragyanAI Pricing Analytics Dashboard")
 
 # -----------------------------
 # SAFE DATA LOADING
@@ -88,13 +88,13 @@ col3.metric("Conversion Rate", f"{conversion_rate:.2f}%")
 # -----------------------------
 # FILTERED DATA TABLE
 # -----------------------------
-st.subheader("📊 Filtered Data")
+st.subheader(" Filtered Data")
 st.dataframe(filtered_df)
 
 # -----------------------------
 # TOP PERFORMER (SAFE)
 # -----------------------------
-st.subheader("🏆 Top Performer")
+st.subheader(" Top Performer")
 
 if len(filtered_df) > 0:
     top_student = filtered_df.loc[filtered_df["Revenue"].idxmax()]
