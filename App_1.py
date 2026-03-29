@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-
+import io
 # -----------------------------
 # Page Config
 # -----------------------------
@@ -28,8 +28,12 @@ df = load_data()
 # -----------------------------
 st.subheader("Dataset Preview")
 st.dataframe(df.head())
-st.write(df.info())
+# st.write(df.info()) df.info - Not Return Anything
 
+buffer = io.StringIO()
+df.info(buf=buffer)
+
+st.text(buffer.getvalue())
 # -----------------------------
 # KPIs
 # -----------------------------
