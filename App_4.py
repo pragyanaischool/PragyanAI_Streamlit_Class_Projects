@@ -220,7 +220,7 @@ elif page == "Advanced Media":
     # =====================================
     st.write("## Audio Upload & Play")
 
-    audio_file = st.file_uploader("Upload Audio", type=["mp3", "wav"])
+    audio_file = st.file_uploader("Upload Audio", type=["mp3", "wav","m4a"])
 
     if audio_file:
         st.audio(audio_file)
