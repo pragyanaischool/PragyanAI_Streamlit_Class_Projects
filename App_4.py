@@ -291,7 +291,7 @@ elif page == "Advanced Media":
         # -----------------------------
         try:
             response = client.chat.completions.create(
-                model="llama3-70b-8192",  # fast + powerful
+                model="openai/gpt-oss-120b",  # fast + powerful
                 messages=[
                     {"role": "system", "content": system_prompt},
                     *st.session_state.messages
