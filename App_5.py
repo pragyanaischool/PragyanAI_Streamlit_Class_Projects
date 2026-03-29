@@ -10,7 +10,7 @@ import time
 # PAGE CONFIG
 # -----------------------------
 st.set_page_config(page_title="PragyanAI AI BI Dashboard", layout="wide")
-st.image()
+st.image("PragyanAI_Transperent.png")
 # -----------------------------
 # DATABASE SETUP
 # -----------------------------
