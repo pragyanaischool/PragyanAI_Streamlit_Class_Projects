@@ -189,3 +189,80 @@ plt.tight_layout()
 
 # Display in Streamlit
 st.pyplot(fig)
+
+# -----------------------------
+# Advanced Dynamic Subplots Grid
+# -----------------------------
+st.subheader("📊 Advanced Multi-Chart Dynamic Dashboard")
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+import math
+
+# =============================
+# 🔹 Define number of plots dynamically
+# =============================
+plots = [
+    "hist_price",
+    "revenue_trend",
+    "conversion_count",
+    "box_plot",
+    "discount_distribution",
+    "correlation_heatmap"
+]
+
+num_plots = len(plots)
+cols = 2  # number of columns you want
+rows = math.ceil(num_plots / cols)
+
+# =============================
+# 🔹 Create subplot grid
+# =============================
+fig, axes = plt.subplots(rows, cols, figsize=(16, 5 * rows))
+axes = axes.flatten()  # flatten for easy indexing
+
+# =============================
+# 🔹 Loop through plots
+# =============================
+for i, plot in enumerate(plots):
+
+    if plot == "hist_price":
+        axes[i].hist(df["Final_Price"], bins=20)
+        axes[i].set_title("Final Price Distribution")
+
+    elif plot == "revenue_trend":
+        axes[i].plot(df["Revenue"])
+        axes[i].set_title("Revenue Trend")
+
+    elif plot == "conversion_count":
+        sns.countplot(x="Converted", data=df, ax=axes[i])
+        axes[i].set_title("Conversion Count")
+
+    elif plot == "box_plot":
+        sns.boxplot(x="Program_Type", y="Final_Price", data=df, ax=axes[i])
+        axes[i].set_title("Price by Program")
+
+    elif plot == "discount_distribution":
+        axes[i].hist(df["Discount_%"], bins=20)
+        axes[i].set_title("Discount Distribution")
+
+    elif plot == "correlation_heatmap":
+        corr = df.corr(numeric_only=True)
+        sns.heatmap(corr, annot=True, cmap="coolwarm", ax=axes[i])
+        axes[i].set_title("Correlation Heatmap")
+
+# =============================
+# 🔹 Hide empty subplots
+# =============================
+for j in range(i + 1, len(axes)):
+    fig.delaxes(axes[j])
+
+# =============================
+# 🔹 Final Layout Fix
+# =============================
+plt.tight_layout()
+
+# =============================
+# 🔹 Show in Streamlit
+# =============================
+st.pyplot(fig)
