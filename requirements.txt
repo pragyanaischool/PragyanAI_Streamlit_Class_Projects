@@ -5,4 +5,3 @@ matplotlib
 seaborn
 groq
 plotly
-sqlite3
