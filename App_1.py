@@ -29,7 +29,7 @@ df = load_data()
 st.subheader("Dataset Preview")
 st.dataframe(df.head())
 # st.write(df.info()) df.info - Not Return Anything
-
+st.write("Basic Info about Data")
 buffer = io.StringIO()
 df.info(buf=buffer)
 
