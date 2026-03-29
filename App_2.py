@@ -19,18 +19,6 @@ def load_data():
 df = load_data()
 
 # -----------------------------
-# Charts
-# -----------------------------
-st.subheader(" Revenue Trend")
-st.line_chart(df["Revenue"])
-
-st.subheader(" Revenue by Program")
-st.bar_chart(df.groupby("Program_Type")["Revenue"].sum())
-
-st.subheader(" Discount Trend")
-st.line_chart(df["Discount_%"])
-
-# -----------------------------
 # Grid Subplots Dashboard
 # -----------------------------
 st.subheader("Multi-Chart Dashboard (Subplots Grid)")
