@@ -27,28 +27,28 @@ else:
 # -----------------------------
 # SIDEBAR NAVIGATION
 # -----------------------------
-st.sidebar.title("📌 Navigation")
+st.sidebar.title(" Navigation")
 
 page = st.sidebar.radio(
     "Go to",
-    ["🏠 Home", "📊 Dashboard", "📝 Form", "🧠 Session State"]
+    [" Home", " Dashboard", " Form", " Session State"]
 )
 
 # =============================
 # 🏠 HOME
 # =============================
-if page == "🏠 Home":
+if page == " Home":
     st.subheader("Welcome to PragyanAI Dashboard")
     st.write("This app demonstrates all major Streamlit UI features")
 
 # =============================
 # 📊 DASHBOARD (TABS)
 # =============================
-elif page == "📊 Dashboard":
+elif page == " Dashboard":
 
-    st.subheader("📊 Data Analytics Dashboard")
+    st.subheader(" Data Analytics Dashboard")
 
-    tab1, tab2, tab3 = st.tabs(["📄 Data", "📈 Charts", "📌 KPIs"])
+    tab1, tab2, tab3 = st.tabs([" Data", " Charts", " KPIs"])
 
     # -------------------------
     # TAB 1: DATA
@@ -99,9 +99,9 @@ elif page == "📝 Form":
 # =============================
 # 🧠 SESSION STATE PAGE
 # =============================
-elif page == "🧠 Session State":
+elif page == " Session State":
 
-    st.subheader("🧠 Session State Counter")
+    st.subheader(" Session State Counter")
 
     if "count" not in st.session_state:
         st.session_state.count = 0
