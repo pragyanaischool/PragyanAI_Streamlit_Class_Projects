@@ -45,7 +45,7 @@ if missing:
 # -----------------------------
 # SIDEBAR FILTERS
 # -----------------------------
-st.sidebar.header("🔍 Filters")
+st.sidebar.header(" Filters")
 
 program = st.sidebar.selectbox(
     "Select Program",
@@ -73,7 +73,7 @@ filtered_df = df[
 # -----------------------------
 # KPI METRICS (BASED ON FILTERED DATA)
 # -----------------------------
-st.subheader("📌 Key Metrics")
+st.subheader(" Key Metrics")
 
 col1, col2, col3 = st.columns(3)
 
